@@ -54,12 +54,7 @@ CREATE DATABASE teacher_student_db;
 5. Start the application:
 
 ```bash
-npm start
-```
-
-For development with auto-reload:
-```bash
-npm run dev
+node app.js
 ```
 
 The server will start on `http://localhost:3000`
