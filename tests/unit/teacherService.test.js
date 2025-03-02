@@ -92,4 +92,30 @@ describe('TeacherService', () => {
             .rejects.toThrow('Student email is required');
         });
     });
+
+    describe('retrieveForNotifications', () => {
+        it('should retrieve eligible students for notification', async () => {
+          const teacherEmail = 'teacher@example.com';
+          const notification = 'Hello @student1@example.com and @student2@example.com';
+          const eligibleStudents = ['student1@example.com', 'student2@example.com', 'student3@example.com'];
+          
+          Student.getStudentsForNotification.mockResolvedValue(eligibleStudents);
+    
+          const result = await teacherService.retrieveForNotifications(teacherEmail, notification);
+    
+          expect(Student.getStudentsForNotification).toHaveBeenCalledWith(
+            teacherEmail, 
+            ['student1@example.com', 'student2@example.com']
+          );
+          expect(result).toEqual(eligibleStudents);
+        });
+    
+        it('should throw an error if parameters are missing', async () => {
+          await expect(teacherService.retrieveForNotifications(null, 'Hello'))
+            .rejects.toThrow('Teacher email and notification are required');
+          
+          await expect(teacherService.retrieveForNotifications('teacher@example.com', null))
+            .rejects.toThrow('Teacher email and notification are required');
+        });
+    });
 })
