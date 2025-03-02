@@ -51,7 +51,15 @@ DB_PORT=3306
 CREATE DATABASE teacher_student_db;
 ```
 
-5. Start the application:
+5. (Optional) Inserting mock data to the database
+
+The mock data based on the assessment description has also been provided. To use the mock data, run the following command on your shell:
+
+```bash
+mysql teacher_student_db < mockdata.sql
+```
+
+6. Start the application:
 
 ```bash
 node app.js
