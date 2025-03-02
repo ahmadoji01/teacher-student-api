@@ -22,6 +22,27 @@ class Student {
       throw error;
     }
   }
+
+  static async findOrCreate(email) {
+    try {
+      const [rows] = await pool.query('SELECT * FROM students WHERE email = ?', [email]);
+      
+      if (rows.length > 0) {
+        return rows[0];
+      }
+      
+      const [result] = await pool.query('INSERT INTO students (email) VALUES (?)', [email]);
+      
+      return {
+        id: result.insertId,
+        email,
+        is_suspended: false
+      };
+    } catch (error) {
+      console.error('Error in Student.findOrCreate:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Student;

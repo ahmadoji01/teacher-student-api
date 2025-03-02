@@ -1,5 +1,6 @@
 const Teacher = require('../models/Teacher');
 const Student = require('../models/Student');
+const Registration = require('../models/Registration');
 
 class TeacherService {
   static async getCommonStudents(teacherEmails) {
@@ -20,6 +21,20 @@ class TeacherService {
       throw error;
     }
   }
+
+  static async registerStudents(teacherEmail, studentEmails) {
+    try {
+      if (!teacherEmail || !studentEmails || !Array.isArray(studentEmails) || studentEmails.length === 0) {
+        throw new Error('Invalid input parameters');
+      }
+      
+      return await Registration.register(teacherEmail, studentEmails);
+    } catch (error) {
+      console.error('Error in TeacherService.registerStudents:', error);
+      throw error;
+    }
+  }
+
 }
 
 module.exports = TeacherService;

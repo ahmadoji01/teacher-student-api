@@ -16,6 +16,26 @@ class Teacher {
       throw error;
     }
   }
+
+  static async findOrCreate(email) {
+    try {
+      const [rows] = await pool.query('SELECT * FROM teachers WHERE email = ?', [email]);
+      
+      if (rows.length > 0) {
+        return rows[0];
+      }
+      
+      const [result] = await pool.query('INSERT INTO teachers (email) VALUES (?)', [email]);
+      
+      return {
+        id: result.insertId,
+        email
+      };
+    } catch (error) {
+      console.error('Error in Teacher.findOrCreate:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Teacher;

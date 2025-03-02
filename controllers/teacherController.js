@@ -19,6 +19,22 @@ class TeacherController {
       return res.status(500).json({ message: error.message || 'Internal server error' });
     }
   }
+
+  static async registerStudents(req, res, next) {
+    try {
+      const { teacher, students } = req.body;
+      
+      if (!teacher || !students || !Array.isArray(students)) {
+        return res.status(400).json({ message: 'Invalid input parameters' });
+      }
+      
+      await teacherService.registerStudents(teacher, students);
+      return res.status(204).send();
+    } catch (error) {
+      console.error('Error in registerStudents controller:', error);
+      return res.status(500).json({ message: error.message || 'Internal server error' });
+    }
+  }
 }
 
 module.exports = TeacherController;
