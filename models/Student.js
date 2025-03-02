@@ -70,6 +70,45 @@ class Student {
       throw error;
     }
   }
+
+  static async getStudentsForNotification(teacherEmail, mentionedEmails) {
+    try {
+      const [teacherRows] = await pool.query('SELECT id FROM teachers WHERE email = ?', [teacherEmail]);
+      
+      if (teacherRows.length === 0) {
+        throw new Error('Teacher not found');
+      }
+      
+      const teacherId = teacherRows[0].id;
+      
+      const [registeredRows] = await pool.query(`
+        SELECT s.email
+        FROM students s
+        JOIN registrations r ON s.id = r.student_id
+        WHERE r.teacher_id = ? AND s.is_suspended = FALSE
+      `, [teacherId]);
+      
+      const registeredEmails = registeredRows.map(row => row.email);
+      
+      let mentionedNonSuspendedEmails = [];
+      
+      if (mentionedEmails && mentionedEmails.length > 0) {
+        const placeholders = mentionedEmails.map(() => '?').join(',');
+        const [mentionedRows] = await pool.query(`
+          SELECT email
+          FROM students
+          WHERE email IN (${placeholders}) AND is_suspended = FALSE
+        `, mentionedEmails);
+        
+        mentionedNonSuspendedEmails = mentionedRows.map(row => row.email);
+      }
+      
+      return [...new Set([...registeredEmails, ...mentionedNonSuspendedEmails])];
+    } catch (error) {
+      console.error('Error in Student.getStudentsForNotification:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Student;

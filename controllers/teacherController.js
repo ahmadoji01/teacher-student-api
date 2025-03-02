@@ -55,6 +55,26 @@ class TeacherController {
       return res.status(500).json({ message: error.message || 'Internal server error' });
     }
   }
+
+  static async retrieveForNotifications(req, res, next) {
+    try {
+      const { teacher, notification } = req.body;
+      
+      if (!teacher || !notification) {
+        return res.status(400).json({ message: 'Teacher and notification are required' });
+      }
+      
+      const recipients = await teacherService.retrieveForNotifications(teacher, notification);
+      
+      return res.status(200).json({ recipients });
+    } catch (error) {
+      console.error('Error in retrieveForNotifications controller:', error);
+      if (error.message === 'Teacher not found') {
+        return res.status(404).json({ message: error.message });
+      }
+      return res.status(500).json({ message: error.message || 'Internal server error' });
+    }
+  }
 }
 
 module.exports = TeacherController;

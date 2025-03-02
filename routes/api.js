@@ -5,5 +5,6 @@ const teacherController = require('../controllers/teacherController');
 router.get('/commonstudents', teacherController.getCommonStudents);
 router.post('/register', teacherController.registerStudents);
 router.post('/suspend', teacherController.suspendStudent);
+router.post('/retrievefornotifications', teacherController.retrieveForNotifications);
 
 module.exports = router;

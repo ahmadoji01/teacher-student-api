@@ -47,6 +47,30 @@ class TeacherService {
       throw error;
     }
   }
+
+  static async retrieveForNotifications(teacherEmail, notification) {
+    try {
+      if (!teacherEmail || !notification) {
+        throw new Error('Teacher email and notification are required');
+      }
+      
+      const mentionedEmails = this.extractMentionedEmails(notification);
+
+      return await Student.getStudentsForNotification(teacherEmail, mentionedEmails);
+    } catch (error) {
+      console.error('Error in TeacherService.retrieveForNotifications:', error);
+      throw error;
+    }
+  }
+
+  static extractMentionedEmails(notification) {
+    const regex = /@([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/g;
+    const matches = notification.match(regex);
+    if (!matches) {
+      return [];
+    }
+    return matches.map(match => match.substring(1));
+  }
 }
 
 module.exports = TeacherService;
