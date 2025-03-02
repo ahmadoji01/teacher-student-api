@@ -43,6 +43,33 @@ class Student {
       throw error;
     }
   }
+  
+  static async findByEmail(email) {
+    try {
+      const [rows] = await pool.query('SELECT * FROM students WHERE email = ?', [email]);
+      return rows.length > 0 ? rows[0] : null;
+    } catch (error) {
+      console.error('Error in Student.findByEmail:', error);
+      throw error;
+    }
+  }
+
+  static async suspend(email) {
+    try {
+      const student = await this.findByEmail(email);
+      
+      if (!student) {
+        throw new Error('Student not found');
+      }
+      
+      await pool.query('UPDATE students SET is_suspended = TRUE WHERE email = ?', [email]);
+      
+      return true;
+    } catch (error) {
+      console.error('Error in Student.suspend:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Student;

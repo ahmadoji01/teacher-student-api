@@ -34,7 +34,19 @@ class TeacherService {
       throw error;
     }
   }
-
+  
+  static async suspendStudent(studentEmail) {
+    try {
+      if (!studentEmail) {
+        throw new Error('Student email is required');
+      }
+      
+      return await Student.suspend(studentEmail);
+    } catch (error) {
+      console.error('Error in TeacherService.suspendStudent:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = TeacherService;

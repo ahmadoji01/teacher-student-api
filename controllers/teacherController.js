@@ -35,6 +35,26 @@ class TeacherController {
       return res.status(500).json({ message: error.message || 'Internal server error' });
     }
   }
+  
+  static async suspendStudent(req, res, next) {
+    try {
+      const { student } = req.body;
+      
+      if (!student) {
+        return res.status(400).json({ message: 'Student email is required' });
+      }
+      
+      await teacherService.suspendStudent(student);
+      
+      return res.status(204).send();
+    } catch (error) {
+      console.error('Error in suspendStudent controller:', error);
+      if (error.message === 'Student not found') {
+        return res.status(404).json({ message: error.message });
+      }
+      return res.status(500).json({ message: error.message || 'Internal server error' });
+    }
+  }
 }
 
 module.exports = TeacherController;
