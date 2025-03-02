@@ -21,7 +21,7 @@ This is an Express.js application with MySQL that provides API endpoints for tea
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/ahmadoji01/teacher-student-api.git
 cd teacher-student-api
 ```
 
