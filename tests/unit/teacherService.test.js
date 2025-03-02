@@ -75,4 +75,21 @@ describe('TeacherService', () => {
             .rejects.toThrow('Invalid teacher emails');
         });
     });
+
+    describe('suspendStudent', () => {
+        it('should suspend a student successfully', async () => {
+          const studentEmail = 'student@example.com';
+          Student.suspend.mockResolvedValue(true);
+    
+          const result = await teacherService.suspendStudent(studentEmail);
+    
+          expect(Student.suspend).toHaveBeenCalledWith(studentEmail);
+          expect(result).toBe(true);
+        });
+    
+        it('should throw an error if student email is missing', async () => {
+          await expect(teacherService.suspendStudent(null))
+            .rejects.toThrow('Student email is required');
+        });
+    });
 })
