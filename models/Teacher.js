@@ -36,6 +36,16 @@ class Teacher {
       throw error;
     }
   }
+
+  static async getAllTeachers() {
+    try {
+      const [rows] = await pool.query('SELECT email FROM teachers');
+      return rows.map(row => row.email);
+    } catch (error) {
+      console.error('Error in Teacher.getAllTeachers:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Teacher;

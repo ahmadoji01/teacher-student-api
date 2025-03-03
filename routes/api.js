@@ -7,5 +7,6 @@ router.post('/register', teacherController.registerStudents);
 router.post('/suspend', teacherController.suspendStudent);
 router.post('/retrievefornotifications', teacherController.retrieveForNotifications);
 router.get('/getallstudents', teacherController.retrieveAllStudents);
+router.get('/getallteachers', teacherController.retrieveAllTeachers);
 
 module.exports = router;
