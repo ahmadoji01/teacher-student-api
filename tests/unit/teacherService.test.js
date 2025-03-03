@@ -35,6 +35,17 @@ describe('TeacherService', () => {
             await expect(teacherService.registerStudents('teacher@example.com', []))
                 .rejects.toThrow('Invalid input parameters');
         });
+
+        it('should throw an error if email format is invalid', async () => {
+            const invalidTeacherEmail = 'test';
+            const invalidStudentEmails = ['student1@example.com', 'student2'];
+
+            await expect(teacherService.registerStudents(invalidTeacherEmail, ['student@example.com']))
+                .rejects.toThrow('Invalid teacher email format');
+        
+            await expect(teacherService.registerStudents('teacher@example.com', invalidStudentEmails))
+                .rejects.toThrow('Invalid students email format');
+        });
     });
 
     describe('getCommonStudents', () => {
