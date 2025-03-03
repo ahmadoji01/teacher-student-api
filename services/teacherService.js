@@ -32,6 +32,14 @@ class TeacherService {
       if (!teacherEmail || !studentEmails || !Array.isArray(studentEmails) || studentEmails.length === 0) {
         throw new Error('Invalid input parameters');
       }
+
+      if (!this.isValidEmail(teacherEmail))
+        throw new Error('Invalid teacher email format');
+
+      studentEmails.map( student => {
+        if (!this.isValidEmail(student))
+          throw new Error('Invalid students email format');
+      })
       
       return await Registration.register(teacherEmail, studentEmails);
     } catch (error) {
