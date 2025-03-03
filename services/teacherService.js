@@ -11,7 +11,7 @@ class TeacherService {
       
       teacherEmails.map( teacher => {
         if (!this.isValidEmail(teacher))
-          throw new Error('Input(s) are not valid email');
+          throw new Error('Invalid email format');
       })
 
       const teachers = await Teacher.findAllByEmails(teacherEmails);

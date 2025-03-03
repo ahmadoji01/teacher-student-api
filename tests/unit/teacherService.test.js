@@ -74,6 +74,12 @@ describe('TeacherService', () => {
           await expect(teacherService.getCommonStudents([]))
             .rejects.toThrow('Invalid teacher emails');
         });
+
+        it('should throw an error if email format is invalid', async () => {
+            const invalidEmailsFormat = ['teacherjon@gmail.com', 'teacherken'];
+            await expect(teacherService.getCommonStudents(invalidEmailsFormat))
+                .rejects.toThrow('Invalid email format');
+        })
     });
 
     describe('suspendStudent', () => {
