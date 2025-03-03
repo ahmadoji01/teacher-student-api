@@ -9,6 +9,11 @@ class TeacherService {
         throw new Error('Invalid teacher emails');
       }
       
+      teacherEmails.map( teacher => {
+        if (!this.isValidEmail(teacher))
+          throw new Error('Input(s) are not valid email');
+      })
+
       const teachers = await Teacher.findAllByEmails(teacherEmails);
       if (teachers.length === 0) {
         return [];
@@ -70,6 +75,11 @@ class TeacherService {
       return [];
     }
     return matches.map(match => match.substring(1));
+  }
+
+  static isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }
 
