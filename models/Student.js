@@ -109,6 +109,16 @@ class Student {
       throw error;
     }
   }
+
+  static async getAllStudents() {
+    try {
+      const [rows] = await pool.query('SELECT email FROM students');
+      return rows.map(row => row.email);
+    } catch (error) {
+      console.error('Error in Student.getAllStudents:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Student;

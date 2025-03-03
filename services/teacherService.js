@@ -76,6 +76,15 @@ class TeacherService {
     }
   }
 
+  static async retrieveAllStudents() {
+    try {
+      return await Student.getAllStudents();
+    } catch (error) {
+      console.error('Error in TeacherService.retrieveAllStudents:', error);
+      throw error;
+    }
+  }
+
   static extractMentionedEmails(notification) {
     const regex = /@([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/g;
     const matches = notification.match(regex);

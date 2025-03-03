@@ -75,6 +75,16 @@ class TeacherController {
       return res.status(500).json({ message: error.message || 'Internal server error' });
     }
   }
+  
+  static async retrieveAllStudents(req, res, next) {
+    try {
+      const students = await teacherService.retrieveAllStudents();
+      return res.status(200).json({ students });
+    } catch (error) {
+      console.error('Error in retrieveAllStudents controller:', error);
+      return res.status(500).json({ message: error.message || 'Internal server error' });
+    }
+  }
 }
 
 module.exports = TeacherController;
