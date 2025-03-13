@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS teacher_student_db;
+USE teacher_student_db;
+
 DROP TABLE IF EXISTS registrations;
 DROP TABLE IF EXISTS students;
 DROP TABLE IF EXISTS teachers;

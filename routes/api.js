@@ -8,5 +8,6 @@ router.post('/suspend', teacherController.suspendStudent);
 router.post('/retrievefornotifications', teacherController.retrieveForNotifications);
 router.get('/getallstudents', teacherController.retrieveAllStudents);
 router.get('/getallteachers', teacherController.retrieveAllTeachers);
+router.get('/getregisteredstudents', teacherController.retrieveRegisteredStudents);
 
 module.exports = router;

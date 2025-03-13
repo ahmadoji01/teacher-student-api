@@ -28,6 +28,22 @@ class Registration {
       throw error;
     }
   }
+
+  static async getRegisteredStudents() {
+    try {
+      const [students] = await pool.query(`
+        SELECT s.email AS student_email, t.email AS teacher_email
+        FROM registrations r
+        JOIN students s ON r.student_id = s.id
+        JOIN teachers t ON r.teacher_id = t.id
+        GROUP BY s.id
+      `)
+      return students;
+    } catch (error) {
+      console.error('Error in Registration.getRegisteredStudents:', error);
+      throw error;
+    }
+  }
 }
 
 module.exports = Registration;
