@@ -93,12 +93,11 @@ class Student {
       let mentionedNonSuspendedEmails = [];
       
       if (mentionedEmails && mentionedEmails.length > 0) {
-        const placeholders = mentionedEmails.map(() => '?').join(',');
         const [mentionedRows] = await pool.query(`
           SELECT email
           FROM students
-          WHERE email IN (${placeholders}) AND is_suspended = FALSE
-        `, mentionedEmails);
+          WHERE email IN (?) AND is_suspended = FALSE
+        `, [mentionedEmails]);
         
         mentionedNonSuspendedEmails = mentionedRows.map(row => row.email);
       }

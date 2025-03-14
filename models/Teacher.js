@@ -7,8 +7,7 @@ class Teacher {
         return [];
       }
       
-      const placeholders = emails.map(() => '?').join(',');
-      const [rows] = await pool.query(`SELECT * FROM teachers WHERE email IN (${placeholders})`, emails);
+      const [rows] = await pool.query(`SELECT * FROM teachers WHERE email IN (?)`, [emails]);
       
       return rows;
     } catch (error) {
