@@ -2,6 +2,8 @@ const teacherService = require('../../services/teacherService');
 const Teacher = require('../../models/Teacher');
 const Student = require('../../models/Student');
 const Registration = require('../../models/Registration');
+const { pool } = require('../../config/db');
+const app = require('../../app');
 
 jest.mock('../../models/Teacher');
 jest.mock('../../models/Student');
@@ -10,8 +12,12 @@ jest.mock('../../models/Registration');
 describe('TeacherService', () => {
     beforeEach(() => {
       jest.clearAllMocks();
-      jest.useFakeTimers();
     });
+
+    afterAll(async () => {
+      await new Promise(resolve => setTimeout(resolve, 100));
+      await pool.end();
+    })
 
     describe('registerStudents', () => {
         it('should register students successfully', async () => {
@@ -135,4 +141,18 @@ describe('TeacherService', () => {
             .rejects.toThrow('Teacher email and notification are required');
         });
     });
+
+    describe('retrieveRegisteredStudents', () => {
+      it('should retrieve registered students with their teacher', async () => {
+        const teachers = ['teacherken@example.com', 'teacherjon@example.com'];
+        const students = ['student1@example.com', 'student2@example.com', 'student3@example.com'];
+        const registeredStudents = students.map( student => { return { student: student, teacher: teachers[Math.floor(Math.random()*teachers.length)] } })
+
+        Registration.getRegisteredStudents.mockResolvedValue(registeredStudents);
+
+        const result = await teacherService.retrieveRegisteredStudents();
+
+        expect(result).toEqual(registeredStudents);
+      })
+    })
 })

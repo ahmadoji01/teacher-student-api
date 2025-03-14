@@ -2,7 +2,6 @@ const express = require('express');
 const createError = require('http-errors');
 const cors = require('cors');
 require('dotenv').config();
-const port = process.env.PORT || '3000';
 
 const apiRouter = require('./routes/api');
 
@@ -24,9 +23,5 @@ app.use((err, req, res, next) => {
     message: err.message
   });
 });
-
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
 
 module.exports = app;

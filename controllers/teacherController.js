@@ -98,8 +98,8 @@ class TeacherController {
 
   static async retrieveRegisteredStudents(req, res, next) {
     try {
-      const students = await teacherService.retrieveRegisteredStudents();
-      return res.status(200).json({ students });
+      const registered_students = await teacherService.retrieveRegisteredStudents();
+      return res.status(200).json({ registered_students });
     } catch (error) {
       console.error('Error in retrieveRegisteredStudents controller:', error);
       return res.status(500).json({ message: error.message || 'Internal server error' });
